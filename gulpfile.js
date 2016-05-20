@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
+    ngannotate = require('gulp-ng-annotate')
     stylish = require('jshint-stylish'),
     uglify = require('gulp-uglify'),
     usemin = require('gulp-usemin'),
@@ -29,10 +30,10 @@ gulp.task('default', ['clean'], function() {
     gulp.start('usemin', 'imagemin','copyfonts');
 });
 gulp.task('usemin',['jshint'], function () {
-  return gulp.src('./app/menu.html')
+  return gulp.src('./app/**/*.html')
       .pipe(usemin({
         css:[minifycss(),rev()],
-        js: [uglify(),rev()]
+        js: [ngannotate(),uglify(),rev()]
       }))
       .pipe(gulp.dest('dist/'));
 });
@@ -72,7 +73,7 @@ gulp.task('browser-sync', ['default'], function () {
    browserSync.init(files, {
       server: {
          baseDir: "dist",
-         index: "menu.html"
+         index: "index.html"
       }
    });
         // Watch any files in dist/, reload on change
